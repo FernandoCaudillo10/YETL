@@ -1,1 +1,5 @@
-entra R2
+agua
+entra r1
+entra r2
+suma r1 r2 r3
+saca r3
