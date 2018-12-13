@@ -9,6 +9,7 @@ using namespace std;
 string dec2bi(int dec);
 int used = 0;
 int func = 0;
+int count = 0;
 
 unordered_map<string, int> functions;
 	
@@ -18,14 +19,14 @@ unordered_map<string, string> opcode {
 		{"para", dec2bi(3)},
 		{"suma", dec2bi(4)},
 		{"menos",dec2bi(5)},
-		{"dividir",dec2bi(6)},
+		{"divide",dec2bi(6)},
 		{"por", dec2bi(7)},
 		{"modelo", dec2bi(8)},
 		{"salta", dec2bi(9)},
 		{"agua", dec2bi(13)},
 		{"enpuja", dec2bi(10)},
 		{"despuja", dec2bi(11)},
-		{"salta", dec2bi(12)},
+		{"saltasi", dec2bi(12)},
 		{"save", dec2bi(14)}
 		};
 
@@ -38,7 +39,6 @@ void padding();
 
 int main(){
 	string info;
-
 	ifstream fin("test.txt");
 	if(fin.fail()){
 		cout << "Where is the file? I can't see";
@@ -50,11 +50,11 @@ int main(){
 		stringstream buf(info);
 		used++;
 		string word;
-		int count = 0;
+		count = 0;
 		
 		while(buf >> word){	
 			if(count == 0){
-				if(opcode.count(word) == 1)
+				if(opcode.count(word) == 1 || word[word.size()-1] == ':')
 					opcodeF(word,used);
 				else
 					cout << "Syntax error in line: " << used << endl;
@@ -73,7 +73,6 @@ int main(){
 			padding();
 			count++;
 		}
-		fout << endl;
 	}
 	
 
@@ -105,11 +104,17 @@ string dec2bi(int dec){
 void opcodeF(string entry, int x){
 	if(entry[entry.length()-1] == ':'){
 		fout << opcode["save"];
-		entry.substr(0,entry.length()-1);
-		functions[entry] = ++func;
+		entry = entry.substr(0,entry.length()-1);
+		func++;
+		functions[entry] = func;
 		fout << dec2bi(func);
 		fout << dec2bi(x);
+		count = 2;
 	}
+	else if(entry == "salta"){
+		fout << opcode[entry];
+	}
+
 	else
 		fout << opcode[entry];
 }
@@ -142,4 +147,8 @@ void isMem(string entry){
 		else
 			cout << "Syntax Error in line " << used << ". Expected integer 1-7\n";
 	}		
+	else if(functions.count(entry)){
+		fout << dec2bi(functions[entry]);
+		count = 1;
+	}
 }

@@ -1,5 +1,11 @@
 agua
-entra r1
-entra r2
-suma r1 r2 r3
-saca r3
+entra r1 1
+entra r2 1
+entra r3 5
+jugito:
+saca r2
+suma r2 r1 r2
+menos r2 r3 r4
+saltasi r4 0
+salta jugito
+para
