@@ -6,25 +6,31 @@
 
 using namespace std;
 
+string dec2bi(int dec);
+int used = 0;
+int func = 0;
+
+unordered_map<string, int> functions;
+	
 unordered_map<string, string> opcode {    
-		{"entra", "0000000000000001"},
-		{"saca", "0000000000000010"},
-		{"para", "0000000000000011"},
-		{"suma", "0000000000000100"},
-		{"menos","0000000000000101"},
-		{"dividir","0000000000000110"},
-		{"por",    "0000000000000111"},
-		{"modelo", "0000000000001000"},
-		{"salta",  "0000000000001001"},
-		{"agua",   "0000000000001010"},
-		{"enpuja", "0000000000001011" },
-		{"despuja", "0000000000001100"},
-		{"salta", "0000000000001101"},
-		{"save", "0000000000001110"}
+		{"entra", dec2bi(1)},
+		{"saca", dec2bi(2)},
+		{"para", dec2bi(3)},
+		{"suma", dec2bi(4)},
+		{"menos",dec2bi(5)},
+		{"dividir",dec2bi(6)},
+		{"por", dec2bi(7)},
+		{"modelo", dec2bi(8)},
+		{"salta", dec2bi(9)},
+		{"agua", dec2bi(13)},
+		{"enpuja", dec2bi(10)},
+		{"despuja", dec2bi(11)},
+		{"salta", dec2bi(12)},
+		{"save", dec2bi(14)}
 		};
+
 ofstream fout("bin.txt");
 
-string dec2bi(int dec);
 void opcodeF(string entry, int x);
 void isDigit(string entry);
 void isMem(string entry);
@@ -32,7 +38,6 @@ void padding();
 
 int main(){
 	string info;
-	int used = 0;
 
 	ifstream fin("test.txt");
 	if(fin.fail()){
@@ -48,9 +53,12 @@ int main(){
 		int count = 0;
 		
 		while(buf >> word){	
-			if(count == 0)
-				opcodeF(word,used);
-
+			if(count == 0){
+				if(opcode.count(word) == 1)
+					opcodeF(word,used);
+				else
+					cout << "Syntax error in line: " << used << endl;
+			}
 			//dec|mem|reg
 			else{
 				if(isdigit(word[0])){
@@ -81,7 +89,7 @@ string dec2bi(int dec){
 	
 	while(dec/2 != 0)
 	{
-		bin = to_string(dec %2) +bin;	
+		bin = to_string(dec%2) +bin;	
 		dec = dec/2;
 	}
 
@@ -96,6 +104,9 @@ string dec2bi(int dec){
 void opcodeF(string entry, int x){
 	if(entry[entry.length()-1] == ':'){
 		fout << opcode["save"];
+		entry.substr(0,entry.length()-1);
+		functions[entry] = ++func;
+		fout << dec2bi(func);
 		fout << dec2bi(x);
 	}
 	else
@@ -119,15 +130,15 @@ void padding(){
 }
 
 void isMem(string entry){
-	if(entry[0] == 'r' || entry[0] == 'R')
-	{	
+	if(entry[0] == 'r' || entry[0] == 'R'){	
 		string temp;
-		if(isdigit(entry[1]))
-		{
+		if(isdigit(entry[1])){
 			int x = entry[1]-'0';
 			temp = dec2bi(x-1);	
 			temp[0] = '1';
 			fout << temp;
 		}
+		else
+			cout << "Syntax Error in line " << used << ". Expected integer 1-7\n";
 	}		
 }
