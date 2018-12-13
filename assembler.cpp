@@ -69,7 +69,7 @@ int main(){
 			}
 			count++;
 		}
-		while(count < 4){
+		while(count <= 4){
 			padding();
 			count++;
 		}
