@@ -1,0 +1,16 @@
+agua
+saliva 3 r1
+leposi r2
+loop:
+entra r3
+enpuja r3
+menos r1 1 r1
+saltasi r1 0
+salta loop
+entra r4
+busca r2 5 r4
+leposi r6
+menos r6 1 r6
+lepos r7 r6 0
+saca r7
+para

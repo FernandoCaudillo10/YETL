@@ -27,7 +27,11 @@ unordered_map<string, string> opcode {
 		{"enpuja", dec2bi(10)},
 		{"despuja", dec2bi(11)},
 		{"saltasi", dec2bi(12)},
-		{"save", dec2bi(14)}
+		{"save", dec2bi(14)},
+		{"lepos", dec2bi(15)},
+		{"saliva", dec2bi(16)},
+		{"leposi", dec2bi(17)},
+		{"busca", dec2bi(18)}
 		};
 
 ofstream fout("bin.txt");
@@ -39,7 +43,7 @@ void padding();
 
 int main(){
 	string info;
-	ifstream fin("test.txt");
+	ifstream fin("test2.txt");
 	if(fin.fail()){
 		cout << "Where is the file? I can't see";
 		exit(1);
@@ -61,7 +65,7 @@ int main(){
 			}
 			//dec|mem|reg
 			else{
-				if(isdigit(word[0])){
+				if(isdigit(word[0]) || word[0] == '-'){
 					isDigit(word);	
 				}
 				else

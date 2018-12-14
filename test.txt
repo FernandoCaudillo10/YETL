@@ -1,11 +1,19 @@
 agua
-entra r1 1
-entra r2 1
-entra r3 5
+entra r1
+saliva r1 r2
+leposi r5
 jugito:
-saca r2
-suma r2 r1 r2
-menos r2 r3 r4
-saltasi r4 0
+menos r2 1 r2
+entra r4
+enpuja r4
+saltasi r2 0
 salta jugito
+jugote:
+lepos r6 r5 0
+suma r6 r7 r7
+suma r5 1 r5
+menos r1 1 r1
+saltasi r1 0
+salta jugote
+saca r7
 para
